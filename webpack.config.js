@@ -1,4 +1,3 @@
-const path = require('path')
 const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -6,7 +5,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const inProduction = process.env.NODE_ENV === 'production'
 
 const plugins = [
-	new ExtractTextPlugin('bundle.css')
+	new ExtractTextPlugin({
+		filename: './public/dist/bundle.css'
+	})
 ]
 
 if (inProduction) {
@@ -17,13 +18,12 @@ if (inProduction) {
 }
 
 module.exports = {
+	plugins: plugins,
 	watch: !inProduction,
 	devtool: !inProduction && 'source-map',
-	plugins,
 	entry: './public/src/js/app.js',
 	output: {
-		path: path.resolve(__dirname, 'public/dist'),
-		filename: 'bundle.js'
+		filename: './public/dist/bundle.js'
 	},
 	resolve: {
 		extensions: ['.js', '.sass'],
