@@ -1,21 +1,16 @@
 module.exports = {
 	"extends": "airbnb",
 	"rules": {
-		// "jsx-a11y/label-has-for": "off",
-		// "no-return-assign": "off",
-		// "jsx-a11y/mouse-events-have-key-events": "off",
-		// "jsx-a11y/mouse-events-have-key-events": "off",
-		// "no-mixed-operators": "off",
-		// "class-methods-use-this": "off",
-		// "jsx-a11y/no-noninteractive-element-interactions": "off",
-		// "jsx-a11y/click-events-have-key-events": "off",
-		// "no-underscore-dangle": "off",
-		// "no-loop-func": "off",
-		// "no-param-reassign": "off",
+		"prefer-destructuring": "off",
+		"no-underscore-dangle": "off",
+		"comma-dangle": ["error", "never"],
+		"semi": ["error", "never"],
+		"indent": ["error", "tab"],
+		"no-tabs": 0
 	},
 	"globals": {
 		"window": true,
 		"document": true,
-		"navigator": true,
+		"navigator": true
 	}
-};
+}
