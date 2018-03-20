@@ -1,0 +1,4 @@
+ls -1 -d */ .*/
+git branch
+git log --pretty=format:"%H|%p|%an|%ad|%s"
+git checkout <name|hash>

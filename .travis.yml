@@ -9,3 +9,29 @@ script:
  - npm run lint
  - npm run test
  - npm run build
+
+aliases:
+  deploy: &deploy
+    provider: heroku
+    api_key: 
+      secure: MYFGwtFyfvkvYIz8/V8YPucX2X6optAj4fGQPxbObCu4Bokiw3JWsC8xR9kPv3wWb8M3F0R6Mp1QxKNjvoUKZqkHfZPl0d/0PNZl9hsxkDi4S2KyBy7Y0d+RdNjrckBfe+xMpTTJ0wjGvYK/gOQ6cwgsgUI2A9A+W3sl4jjy6cEzo1cSMm4DjpPlMLumApTqulW2XDOvJz+9GhR+M5sH0l8RHgnHAffGvKiB6whxGCo4qFVGmMLD4rTQkhDqUKI6MlaJDq7A+e6DE2mcmnAaJl/A9w3oWsjCIdvE9h3kVHnArQLnuUCSWwI67YKFZqe5YuKhwPtex9vJVQEX4sABfnMMKuqf56zJ56BGwrq8ekoPX8XvJh+BgEmvsWJpfMO/tJig6LC6hoSWW7Sm9udnMkGTb4BLHn7RKwNAufVmyUDZR40lk8EPYYxgACEvOdfGdvBdj7HzkDIFMY2GCTeNc7L5q4XjbfLQciwMmtjPk4LSbZ97gR+p52xH8R0xoCz1aMTcJoHNr+f7K0rBrP4apd8KwCJQurej8M60hoa6hAKkyfAG1gZLaQ+iCDdDvgwa7ztxCtWN9SqQNRWv+ViqnzEvJpe76n3WCjp2nMoR+ARTMuvIWr3mx58pRDEhhmF/513GL1Nj2FqeVbQARWObMzprC6AQNNhceZvg7aY0pdk=
+
+jobs:
+  include:
+    - stage: Deploy (development)
+      if: tag IS blank
+      script:
+        - npm run build
+      deploy:
+        <<: *deploy
+        app: shri-homework-4
+
+    - stage: Deploy (production)
+      if: tag IS present
+      script:
+        - npm run build
+      deploy:
+        <<: *deploy
+        app: shri-homework-4
+        on:
+          tags: true

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	h1= title
+	table
+		thead
+			tr
+				th Author
+				th Commit
+				th Message
+				th Date
+		tbody
+			each branch in branches
+				tr
+					td= branch.author
+					td= branch.hash
+					td= branch.message
+					td= branch.date

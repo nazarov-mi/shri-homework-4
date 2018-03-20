@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	h1= title
+	h2= path
+	ul.directories
+		each item in data
+			li
+				a(href=`/directory/${item.source}`)
+					span
+						if item.isDirectory
+							| D
+					= item.source
