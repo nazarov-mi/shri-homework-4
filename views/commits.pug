@@ -6,16 +6,18 @@ block content
 		thead
 			tr
 				th
-				th Name
+				th Author
 				th Commit
 				th Message
+				th Date
 		if (data && data.length > 0)
 			tbody
 				each item in data
 					tr
 						td
-							if (item.isCurrent)
-								| *
-						td= item.name
+							if (item.isMerged)
+								| M
+						td= item.author
 						td= item.hash
 						td= item.message
+						td= item.date

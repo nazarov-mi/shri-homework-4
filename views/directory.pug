@@ -2,12 +2,13 @@ extends layout
 
 block content
 	h1= title
-	h2= path
-	ul.directories
-		each item in data
-			li
-				a(href=`/directory/${item.source}`)
-					span
-						if item.isDirectory
-							| D
-					= item.source
+	h2= hash
+	if (data && data.length > 0)
+		ul.directories
+			each item in data
+				li
+					a(href=`/directory/${item.hash}`)
+						span
+							if (item.type === 'tree')
+								| D
+						= item.name

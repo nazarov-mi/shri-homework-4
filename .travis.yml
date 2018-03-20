@@ -1,8 +1,10 @@
 sudo: false
 language: node_js
+
 node_js:
   - node
   - 8
+
 script:
   - npm run lint
   - npm run test
@@ -21,16 +23,14 @@ jobs:
   include:
     - stage: Deploy (development)
       if: tag IS blank
-      script:
-        - npm run build
+      script: npm run build
       deploy:
         <<: *deploy
         app: shri-homework-4
 
     - stage: Deploy (production)
       if: tag IS present
-      script:
-        - npm run build
+      script: npm run build
       deploy:
         <<: *deploy
         app: shri-homework-4
