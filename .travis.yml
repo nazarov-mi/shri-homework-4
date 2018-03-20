@@ -18,21 +18,20 @@ aliases:
 
 jobs:
   include:
-  - stage: Deploy (development)
-    if: tag IS blank
-    script:
-    - npm run build
-    deploy:
-      provider: heroku
-      api_key: *1
-      app: shri-homework-4
-  - stage: Deploy (production)
-    if: tag IS present
-    script:
-    - npm run build
-    deploy:
-      provider: heroku
-      api_key: *1
-      app: shri-homework-4
-      on:
-        tags: true
+    - stage: Deploy (development)
+      if: tag IS blank
+      script:
+        - npm run build
+      deploy:
+        <<: *deploy
+        app: shri-homework-4
+
+    - stage: Deploy (production)
+      if: tag IS present
+      script:
+        - npm run build
+      deploy:
+        <<: *deploy
+        app: shri-homework-4
+        on:
+          tags: true
