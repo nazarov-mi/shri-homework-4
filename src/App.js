@@ -3,7 +3,7 @@ const { promisify } = require('util')
 const path = require('path')
 
 const exec = promisify(nativeExec)
-const currentPath = path.join(__dirname, '../../git-test')
+const currentPath = path.join(__dirname, './local-repository')
 
 function getPath () {
 	return currentPath
