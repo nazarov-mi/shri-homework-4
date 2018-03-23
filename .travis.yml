@@ -27,7 +27,6 @@ aliases:
 jobs:
   include:
     - stage: Deploy (development)
-      if: tag IS blank
       script: npm run build
       deploy:
         <<: *deploy
