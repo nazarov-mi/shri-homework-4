@@ -21,14 +21,44 @@ h1
 h2
 	font-size: 1.8em
 
+h3
+	font-size: 1.6em
+
 a
 	color: #00b7ff
 
 table
+	display: block
 	width: 100%
+	white-space: nowrap
 
-ul.directories
+td, th
+	padding: .5rem 1rem
+	&:first-child
+		padding-right: 0
+
+.badge
+	display: inline-block
+	width: 1.5rem
+	color: gray
+	font-size: 1.1em
+
+ul.directory
 	li
 		span
 			display: inline-block
-			width: 2rem
+
+.container
+	display: flex
+	justify-contnet: flex-start
+	align-items: flex-start
+	&__sidebar
+		flex: none
+		width: 250px
+		margin-right: 40px
+	&__body
+		flex: 1 1 auto
+
+.block
+	& + &
+		margin-top: 40px

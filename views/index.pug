@@ -1,5 +1,70 @@
 extends layout
 
 block content
-	h1= title
-	p Welcome to #{title}
+	div.container
+		div.container__sidebar
+			h2 Directory
+			h3= hash
+			if (directory && directory.length > 0)
+				ul.directory
+					li
+						a(href="#", onclick="window.history.back(); return false;")
+							| &larr;
+					each item in directory
+						li
+							a(href=`/${branchHash}/${commitHash}/${item.hash}`, data-pjax="#pjax-directory")
+								span.badge
+									if item.isDirectory
+										| D
+								= item.name
+
+		div.container__body
+			div.block
+				h2 Branches
+				table
+					thead
+						tr
+							th
+								span.badge
+							th Name
+							th Hash
+							th Message
+					if branches && branches.length > 0
+						tbody
+							each item in branches
+								tr
+									td
+										span.badge
+											if (item.isCurrent)
+												| *
+									td= item.name
+									td
+										a(href=`/${item.hash}`, data-pjax="#pjax-branches")
+											= item.hash
+									td= item.message
+
+			div.block
+				h2 Commits
+				table
+					thead
+						tr
+							th
+								span.badge
+							th Author
+							th Commit
+							th Message
+							th Date
+					if (commits && commits.length > 0)
+						tbody
+							each item in commits
+								tr
+									td
+										span.badge
+											if item.isMerged
+												| M
+									td= item.author
+									td
+										a(href=`/${branchHash}/${item.hash}`, data-pjax="#pjax-commits")
+											= item.hash
+									td= item.message
+									td= item.date

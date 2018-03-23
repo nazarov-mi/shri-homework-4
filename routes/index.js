@@ -2,39 +2,25 @@ const app = require('../src/App.js')
 const express = require('express')
 
 const router = express.Router()
+const defaultHash = 'HEAD'
 
+router.get('/:branch?/:commit?/:tree?', async (req, res) => {
+	const branchHash = req.params.branch || defaultHash
+	const commitHash = req.params.commit || branchHash
+	const treeHash = req.params.tree || commitHash
 
-/* GET home page. */
-router.get('/', (req, res) => {
-	res.render('index', { title: 'Express' })
-})
+	const branches = await app.changeBranch()
+	const commits = await app.changeCommit(req.params.branch || defaultHash)
+	const directory = await app.changeDirectory([req.params.tree, req.params.commit, req.params.branch].find(it => (it && it.toLowerCase() !== 'head')) || defaultHash)
 
-router.get('/directory/:hash?', async (req, res, next) => {
-	const hash = req.params.hash
-	const data = await app.changeDirectory(hash)
-
-	res.render('directory', {
-		title: 'Directory',
-		hash,
-		data
-	})
-})
-
-router.get('/branches', async (req, res) => {
-	const data = await app.changeBranch()
-
-	res.render('branches', {
-		title: 'Branches',
-		data
-	})
-})
-
-router.get('/commits', async (req, res) => {
-	const data = await app.changeCommit()
-
-	res.render('commits', {
-		title: 'Commits',
-		data
+	res.render('index', {
+		title: 'Git',
+		branches,
+		commits,
+		directory,
+		branchHash,
+		commitHash,
+		treeHash
 	})
 })
 
