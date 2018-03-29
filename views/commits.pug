@@ -1,23 +1,28 @@
-extends layout
-
-block content
-	h1= title
-	table
-		thead
-			tr
-				th
-				th Author
-				th Commit
-				th Message
-				th Date
-		if (data && data.length > 0)
-			tbody
-				each item in data
-					tr
-						td
-							if (item.isMerged)
+table#commits
+	thead
+		tr
+			th
+				span.badge
+				span.badge
+			th Author
+			th Commit
+			th Message
+			th Date
+	if commits.hasData
+		tbody
+			each commit in commits.data
+				tr(class=commit.hash === hash ? 'selected-row' : '')
+					td
+						span.badge
+							if commit.hash === hash
+								| &rarr;
+						span.badge
+							if commit.isMerged
 								| M
-						td= item.author
-						td= item.hash
-						td= item.message
-						td= item.date
+					td= commit.author
+					td
+						a(href=`/${commit.hash}`)
+							= commit.hash
+					td(title=commit.subject)
+						= commit.subject
+					td= commit.date

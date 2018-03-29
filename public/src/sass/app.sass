@@ -6,6 +6,7 @@ html
 	font-size: 14px
 
 body
+	height: 100vh
 	padding: 50px
 	font-family: Lucida Grande, Helvetica, Arial, sans-serif
 	font-size: 1rem
@@ -33,7 +34,10 @@ table
 	white-space: nowrap
 
 td, th
+	max-width: 400px
 	padding: .5rem 1rem
+	overflow: hidden
+	text-overflow: ellipsis
 	&:first-child
 		padding-right: 0
 
@@ -43,22 +47,88 @@ td, th
 	color: gray
 	font-size: 1.1em
 
+.selected-row
+	a
+		color: inherit
+		&:hover
+			text-decoration: underline
+
 ul.directory
-	li
-		span
-			display: inline-block
+	display: block
+	white-space: nowrap
 
-.container
+.directory-back
+	display: block
+	margin-bottom: 16px
+
+.directory-path
+	margin-bottom: 12px
+
+.row
 	display: flex
-	justify-contnet: flex-start
-	align-items: flex-start
-	&__sidebar
-		flex: none
-		width: 250px
-		margin-right: 40px
-	&__body
-		flex: 1 1 auto
+	justify-content: flex-start
+	align-items: stretch
+	height: 100%
 
-.block
+.col
+	display: flex
+	justify-content: space-between
+	align-items: stretch
+	flex: none
 	& + &
-		margin-top: 40px
+		margin-left: -1px
+	&__header
+		position: relative
+		flex: none
+		width: 50px
+		padding: 0 15px
+		border: 0 solid #dde
+		border-width: 0 1px
+		font-weight: bold
+		writing-mode: vertical-rl
+		text-orientation: sideways
+		cursor: pointer
+		transition: background-color 300ms ease
+		&:before
+			content: ' '
+			position: absolute
+			top: 50%
+			left: 50%
+			z-index: 5
+			display: block
+			width: 10px
+			height: 10px
+			margin-left: -3px
+			margin-top: -5px
+			transform: rotate(-135deg)
+			border: 0 solid #99a
+			border-width: 2px 2px 0 0
+		span
+			display: block
+			transition: transform 300ms ease
+		&:hover
+			z-index: 10
+			background-color: #dde
+			&:before
+				border-color: #778
+			span
+				transform: translateY(20px)
+	&__body
+		flex: none
+		width: 0
+		overflow: auto
+	&--open
+		flex: none
+		width: calc(100% - 100px)
+	&--open &__header
+		z-index: 5
+		background-color: #f3f3f9
+		border-color: white
+		&:before
+			display: none
+		span
+			transform: translateY(20px)
+	&--open &__body
+		flex: 1 1 auto
+		width: auto
+		padding: 0 20px

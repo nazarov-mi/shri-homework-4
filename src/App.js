@@ -1,141 +1,94 @@
-const { exec: nativeExec } = require('child_process')
-const { promisify } = require('util')
-const path = require('path')
+const {
+	REPOSITORY_PATH
+} = require('./config')
 
-const exec = promisify(nativeExec)
-const currentPath = path.join(__dirname, './local-repository')
+const BranchesList = require('./BranchesList')
+const CommitsList = require('./CommitsList')
+const Directory = require('./Directory')
+const ExecStreamReader = require('./ExecStreamReader')
+const { join } = require('path')
 
-function getPath () {
-	return currentPath
-}
+class App {
 
-function split (value, separator, limit) {
-	let string = String(value)
-
-	if (limit <= 1) {
-		return string
+	constructor () {
+		this._branches = new BranchesList()
+		this._commits = new CommitsList()
+		this._directory = new Directory()
+		this._hash = 'HEAD'
+		this._path = ''
 	}
 
-	const parts = []
-	let i = 0
+	async change (hash, path) {
+		let currentHash = hash || 'HEAD'
+		let currentPath = path || ''
 
-	while (i ++ < limit - 1) {
-		const match = string.match(separator)
-		const skip = match && match[0]
-
-		if (!skip) {
-			break
+		if (this._hash !== currentHash) {
+			currentPath = ''
 		}
 
-		const part = string.slice(0, match.index)
-
-		parts.push(part)
-		string = string.slice(match.index + skip.length)
-	}
-
-	if (string !== '') {
-		parts.push(string)
-	}
-
-	return parts
-}
-
-function App() {
-	this.defaultHash = 'HEAD'
-	this.currentHead = this.defaultHash
-	this.currentHash = this.defaultHash
-	this.branches = []
-	this.directory = []
-}
-
-App.prototype.parseBranches = function (data) {
-	const rows = String(data).split(/\n/).filter((row) => (!!row))
-
-	return rows.map((row) => {
-		const item = split(row, /\s+/, 4)
-
-		return {
-			name: item[1],
-			hash: item[2],
-			message: item[3]
+		if (currentPath !== '') {
+			currentPath = path.replace(/(^\.?\/|\/$)/g, '')
 		}
-	})
-}
 
-App.prototype.changeBranch = async function (hash) {
-	const currentHash = hash || this.defaultHash
+		await this._branches.change()
+		await this._commits.change(currentHash)
+		await this._directory.change(currentHash, currentPath)
 
-	try {
-		const path = getPath()
-		const res = await exec(`cd ${path} && git branch -v`)
-
-		this.currentHead = currentHash
-		this.branches = this.parseBranches(res.stdout)
-
-		return this.branches
-	} catch (e) {
-		throw e
+		this._hash = currentHash
+		this._path = currentPath
 	}
-}
 
-App.prototype.parseCommits = function (data) {
-	const rows = String(data).split(/\n/).filter((row) => (!!row))
+	async getFileData (hash, path) {
+		const reader = new ExecStreamReader()
+		const blobIhs = `${hash}:${path}`
 
-	return rows.map((row) => {
-		const item = split(row, /\t/, 5)
+		return await reader.start('git', ['show', blobIhs], {
+			cwd: REPOSITORY_PATH
+		})
+	}
 
-		return {
-			isMerged: String(item[1]).split(' ').length > 1,
-			hash: item[0],
-			author: item[2],
-			date: item[3],
-			message: item[4]
+	getPrevPath (path) {
+		if (typeof path !== 'string') {
+			return null
 		}
-	})
-}
 
-App.prototype.changeCommit = async function (hash) {
-	const currentHash = hash || this.defaultHash
+		const formatedPath = path.replace(/(^\.\/|\/$)/g, '')
 
-	try {
-		const path = getPath()
-		const res = await exec(`cd ${path} && git log --date=iso8601 --pretty=format:"%H\t%p\t%an\t%aI\t%s" ${currentHash}`)
-
-		return this.parseCommits(res.stdout)
-	} catch (e) {
-		throw e
-	}
-}
-
-App.prototype.parseDirectory = function (data) {
-	const rows = String(data).split(/\n/).filter((row) => (!!row))
-
-	return rows.map((row) => {
-		const item = split(row, /\s+/, 4)
-
-		return {
-			isDirectory: item[1] === 'tree',
-			type: item[1],
-			hash: item[2],
-			name: item[3]
+		if (formatedPath === '') {
+			return null
 		}
-	})
-}
 
-App.prototype.changeDirectory = async function (hash) {
-	const currentHash = hash || this.defaultHash
+		const parts = formatedPath.split('/')
 
-	try {
-		const path = getPath()
-		const res = await exec(`cd ${path} && git ls-tree --full-name ${currentHash}`)
+		if (parts.length === 1) {
+			return './'
+		}
 
-		this.currentHash = currentHash
-		this.directory = this.parseDirectory(res.stdout)
- 
-		return this.directory
-	} catch (e) {
-		throw e
+		parts.pop()
+
+		return parts.join('/')
+	}
+
+
+	get branches () {
+		return this._branches
+	}
+
+	get commits () {
+		return this._commits
+	}
+
+	get directory () {
+		return this._directory
+	}
+
+	get hash () {
+		return this._hash
+	}
+
+	get path () {
+		return this._path
 	}
 }
 
-module.exports = new App()
+module.exports = App

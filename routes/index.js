@@ -1,26 +1,51 @@
-const app = require('../src/App.js')
+const App = require('../src/App.js')
 const express = require('express')
 
 const router = express.Router()
-const defaultHash = 'HEAD'
+const app = new App()
 
-router.get('/:branch?/:commit?/:tree?', async (req, res) => {
-	const branchHash = req.params.branch || defaultHash
-	const commitHash = req.params.commit || branchHash
-	const treeHash = req.params.tree || commitHash
+router.get('/blob/:hash/:path*', async (req, res) => {
+	const currentHash = req.params.hash
+	const currentPath = req.params.path + req.params['0']
 
-	const branches = await app.changeBranch()
-	const commits = await app.changeCommit(req.params.branch || defaultHash)
-	const directory = await app.changeDirectory([req.params.tree, req.params.commit, req.params.branch].find(it => (it && it.toLowerCase() !== 'head')) || defaultHash)
+	const data = await app.getFileData(currentHash, currentPath)
+	const prevPath = app.getPrevPath(currentPath)
+
+	res.render('blob', {
+		title: 'Git',
+		data,
+		hash: currentHash,
+		path: currentPath,
+		prevPath
+	})
+})
+
+router.get('/:hash?/:path*?', async (req, res) => {
+	const currentHash = req.params.hash
+	const currentPath = req.params.path + req.params['0']
+
+	await app.change(currentHash, currentPath)
+
+	const {
+		branches,
+		commits,
+		directory,
+		hash,
+		path
+	} = app
+
+	const prevPath = app.getPrevPath(app.path)
+	const col = parseInt(req.query.col, 10) || 0
 
 	res.render('index', {
 		title: 'Git',
 		branches,
 		commits,
 		directory,
-		branchHash,
-		commitHash,
-		treeHash
+		hash,
+		path,
+		prevPath,
+		col
 	})
 })
 

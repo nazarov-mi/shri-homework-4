@@ -1,14 +1,19 @@
-extends layout
-
-block content
-	h1= title
-	h2= hash
-	if (data && data.length > 0)
-		ul.directories
-			each item in data
+div#directory
+	if directory.hasData
+		p.directory-path Current path: 
+			span= path
+		if prevPath
+			a.directory-back(href=`/${hash}/${prevPath}`)
+				| &larr; Назад
+		ul.directory
+			each item in directory.data
 				li
-					a(href=`/directory/${item.hash}`)
-						span
-							if (item.type === 'tree')
-								| D
-						= item.name
+					if item.isDirectory
+						span.badge D
+						a(href=`/${hash}/${path || '.'}/${item.name}`)
+							= item.name
+					else
+						a(href=`/blob/${hash}/${path || '.'}/${item.name}`)
+							= item.name
+	else
+		| Empty directory

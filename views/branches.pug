@@ -1,21 +1,22 @@
-extends layout
-
-block content
-	h1= title
-	table
-		thead
-			tr
-				th
-				th Name
-				th Commit
-				th Message
-		if (data && data.length > 0)
-			tbody
-				each item in data
-					tr
-						td
-							if (item.isCurrent)
-								| *
-						td= item.name
-						td= item.hash
-						td= item.message
+table#branches
+	thead
+		tr
+			th
+				span.badge
+			th Name
+			th Hash
+			th Message
+	if branches.hasData
+		tbody
+			each branch in branches.data
+				tr(class=branch.hash === hash ? 'selected-row' : '')
+					td
+						span.badge
+							if branch.hash === hash
+								| &rarr;
+					td= branch.name
+					td
+						a(href=`/${branch.hash}`)
+							= branch.hash
+					td(title=branch.subject)
+						= branch.subject

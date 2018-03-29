@@ -1,15 +1,11 @@
-FROM node:slim
-
-RUN mkdir -p /usr/src/app
+FROM node:alpine
 
 WORKDIR /usr/src/app
+COPY . .
 
-COPY . /usr/src/app
+RUN apk add --no-cache git
 
-RUN git clone https://github.com/vuejs/vue.git local-repository
-RUN cd ./local-repository
-RUN for b in `git branch -r | grep -v 'HEAD\|master'`; do git branch --track ${b##*/} $b; done
-RUN cd ../
+RUN git clone --mirror https://nazarov-mi@bitbucket.org/nazarov-mi/git-test.git local-repository/.git
 
 RUN npm config set loglevel warn
 RUN npm install

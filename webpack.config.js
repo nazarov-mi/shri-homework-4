@@ -18,7 +18,7 @@ if (inProduction) {
 }
 
 module.exports = {
-	plugins: plugins,
+	plugins,
 	watch: !inProduction,
 	devtool: !inProduction && 'source-map',
 	entry: './public/src/js/app.js',
