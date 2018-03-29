@@ -17,7 +17,6 @@ script:
 jobs:
   include:
     - stage: Deploy (development)
-      if: tag IS blank
       script:
         - npm run build
       deploy:
@@ -30,7 +29,6 @@ jobs:
           tags: false
 
     - stage: Deploy (production)
-      if: tag IS present
       script:
         - npm run build
       deploy:
