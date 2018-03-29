@@ -1,36 +1,40 @@
 sudo: false
 language: node_js
+
 node_js:
-- 9
+  - 9
+
 cache:
   directories:
-  - node_modules
+    - node_modules
+
 script:
-- echo $TRAVIS_TAG
-- npm run lint
-- npm run test
-- npm run build
+  - echo $TRAVIS_TAG
+  - npm run lint
+  - npm run test
+  - npm run build
+
 jobs:
   include:
-  - stage: Deploy (development)
-    script:
-    - npm run build
-    deploy:
-      provider: heroku
-      app: shri-homework-456-dev
-      api_key:
-        secure: q8OdkLA1Bexa+4wJU76VdFH1UfRX7X1dAL4TZM5Sh7XNcrjPcxzTUauTfKvQl+EVojeTYpfm52iNFjeIzoPEqoMX9VkB4FNZGAWqKPg+k935nzawGQhILSq6bCGi1TQ46prziBEODjDD2kfr1k0Uz2mKYGUAYNl0es5EIxTo5J57Lnug09hOFwSLCUhwJRb4BNpTeR6cEG6pxNJFOiZyBaLzGLVOMFINEDketY26DpuQ4c7/pZ498Yn7Zl6ftVNLbfIUJWVqpFu/6cBBOJSaJda9Ax71EMgh/eca/qZ6lk16c9fYiOmsaQ3Es2vO/cIwz4IKC4vOQPrMqzw4STJ9/0wd1hImAtG2DJIp6xSVRGwvPzAhHKiQ2h1ol0459SE8bZkzuIrJVS7Vpn9ZdSiD4Ktf6laJ+FMhBF2Q2lJas+31Aj6LY24SD+UFdFbTHijO7Wb9P4lr5uE7EkrYMCNSj/yqB7UGEAmb4NF958DW4tYzZJzUPtg12FCk9Ir4IwPcLuVMMq0wgf+3eimF7sXs4LlHlPf6FcAF9x72/PQz4u39A/9vR78uZSFHZIEloLXyMMI+KjfeGf7twI7+RnqrFM/FZBSsm5x7p/gC/9PC+j25BqPrxL14ZteCdqvviEgpRXBDCVAcTFIFGgGz3wGVVJE9qxnhZEWKK+Mq6I1Rg9g=
-      on:
-        repo: nazarov-mi/shri-homework-456
-        tags: false
-  - stage: Deploy (production)
-    script:
-    - npm run build
-    deploy:
-      provider: heroku
-      app: shri-homework-456
-      api_key:
-        secure: q8OdkLA1Bexa+4wJU76VdFH1UfRX7X1dAL4TZM5Sh7XNcrjPcxzTUauTfKvQl+EVojeTYpfm52iNFjeIzoPEqoMX9VkB4FNZGAWqKPg+k935nzawGQhILSq6bCGi1TQ46prziBEODjDD2kfr1k0Uz2mKYGUAYNl0es5EIxTo5J57Lnug09hOFwSLCUhwJRb4BNpTeR6cEG6pxNJFOiZyBaLzGLVOMFINEDketY26DpuQ4c7/pZ498Yn7Zl6ftVNLbfIUJWVqpFu/6cBBOJSaJda9Ax71EMgh/eca/qZ6lk16c9fYiOmsaQ3Es2vO/cIwz4IKC4vOQPrMqzw4STJ9/0wd1hImAtG2DJIp6xSVRGwvPzAhHKiQ2h1ol0459SE8bZkzuIrJVS7Vpn9ZdSiD4Ktf6laJ+FMhBF2Q2lJas+31Aj6LY24SD+UFdFbTHijO7Wb9P4lr5uE7EkrYMCNSj/yqB7UGEAmb4NF958DW4tYzZJzUPtg12FCk9Ir4IwPcLuVMMq0wgf+3eimF7sXs4LlHlPf6FcAF9x72/PQz4u39A/9vR78uZSFHZIEloLXyMMI+KjfeGf7twI7+RnqrFM/FZBSsm5x7p/gC/9PC+j25BqPrxL14ZteCdqvviEgpRXBDCVAcTFIFGgGz3wGVVJE9qxnhZEWKK+Mq6I1Rg9g=
-      on:
-        repo: nazarov-mi/shri-homework-456
-        tags: true
+    - stage: Deploy (development)
+      script:
+        - npm run build
+      deploy:
+        provider: heroku
+        app: shri-homework-456-dev
+        api_key:
+          secure: q8OdkLA1Bexa+4wJU76VdFH1UfRX7X1dAL4TZM5Sh7XNcrjPcxzTUauTfKvQl+EVojeTYpfm52iNFjeIzoPEqoMX9VkB4FNZGAWqKPg+k935nzawGQhILSq6bCGi1TQ46prziBEODjDD2kfr1k0Uz2mKYGUAYNl0es5EIxTo5J57Lnug09hOFwSLCUhwJRb4BNpTeR6cEG6pxNJFOiZyBaLzGLVOMFINEDketY26DpuQ4c7/pZ498Yn7Zl6ftVNLbfIUJWVqpFu/6cBBOJSaJda9Ax71EMgh/eca/qZ6lk16c9fYiOmsaQ3Es2vO/cIwz4IKC4vOQPrMqzw4STJ9/0wd1hImAtG2DJIp6xSVRGwvPzAhHKiQ2h1ol0459SE8bZkzuIrJVS7Vpn9ZdSiD4Ktf6laJ+FMhBF2Q2lJas+31Aj6LY24SD+UFdFbTHijO7Wb9P4lr5uE7EkrYMCNSj/yqB7UGEAmb4NF958DW4tYzZJzUPtg12FCk9Ir4IwPcLuVMMq0wgf+3eimF7sXs4LlHlPf6FcAF9x72/PQz4u39A/9vR78uZSFHZIEloLXyMMI+KjfeGf7twI7+RnqrFM/FZBSsm5x7p/gC/9PC+j25BqPrxL14ZteCdqvviEgpRXBDCVAcTFIFGgGz3wGVVJE9qxnhZEWKK+Mq6I1Rg9g=
+        on:
+          repo: nazarov-mi/shri-homework-456
+          tags: false
+    - stage: Deploy (production)
+      script:
+        - npm run build
+      deploy:
+        provider: heroku
+        app: shri-homework-456
+        api_key:
+          secure: q8OdkLA1Bexa+4wJU76VdFH1UfRX7X1dAL4TZM5Sh7XNcrjPcxzTUauTfKvQl+EVojeTYpfm52iNFjeIzoPEqoMX9VkB4FNZGAWqKPg+k935nzawGQhILSq6bCGi1TQ46prziBEODjDD2kfr1k0Uz2mKYGUAYNl0es5EIxTo5J57Lnug09hOFwSLCUhwJRb4BNpTeR6cEG6pxNJFOiZyBaLzGLVOMFINEDketY26DpuQ4c7/pZ498Yn7Zl6ftVNLbfIUJWVqpFu/6cBBOJSaJda9Ax71EMgh/eca/qZ6lk16c9fYiOmsaQ3Es2vO/cIwz4IKC4vOQPrMqzw4STJ9/0wd1hImAtG2DJIp6xSVRGwvPzAhHKiQ2h1ol0459SE8bZkzuIrJVS7Vpn9ZdSiD4Ktf6laJ+FMhBF2Q2lJas+31Aj6LY24SD+UFdFbTHijO7Wb9P4lr5uE7EkrYMCNSj/yqB7UGEAmb4NF958DW4tYzZJzUPtg12FCk9Ir4IwPcLuVMMq0wgf+3eimF7sXs4LlHlPf6FcAF9x72/PQz4u39A/9vR78uZSFHZIEloLXyMMI+KjfeGf7twI7+RnqrFM/FZBSsm5x7p/gC/9PC+j25BqPrxL14ZteCdqvviEgpRXBDCVAcTFIFGgGz3wGVVJE9qxnhZEWKK+Mq6I1Rg9g=
+        on:
+          repo: nazarov-mi/shri-homework-456
+          tags: true
