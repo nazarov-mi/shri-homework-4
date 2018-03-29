@@ -4,7 +4,7 @@ const IS_PROD = process.env.NODE_ENV !== 'development'
 const DEFAULT_HASH = 'HEAD'
 const ROOT_PATH = join(__dirname, '../')
 const REPOSITORY_PATH = join(ROOT_PATH, IS_PROD ? 'local-repository' : 'local-test-repository')
-
+console.log(REPOSITORY_PATH)
 module.exports = {
 	IS_PROD,
 	DEFAULT_HASH,
