@@ -3,19 +3,19 @@ module.exports = {
 	gridUrl: 'http://0.0.0.0:4444/wd/hub',
 	sets: {
 		common: {
-			files: [ 'tests/integration/test.js' ]
+			files: [ 'tests/integration' ]
 		}
 	},
 	browsers: {
-		chrome: {
-			desiredCapabilities: {
-				browserName: 'chrome'
-			}
-		},
-		// firefox: {
+		// chrome: {
 		// 	desiredCapabilities: {
-		// 		browserName: 'firefox'
+		// 		browserName: 'chrome'
 		// 	}
-		// }
+		// },
+		firefox: {
+			desiredCapabilities: {
+				browserName: 'firefox'
+			}
+		}
 	}
 }
