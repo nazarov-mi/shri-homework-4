@@ -22,11 +22,11 @@ jobs:
         - npm run build
       deploy:
         provider: heroku
-        app: shri-homework-4
+        app: shri-homework-456-dev
         api_key:
           secure: lRWeQFqQQZx1bKVtA/Zi2KsBTeiKCYRUxxmuKzosHkRkLyccQAp8Yp+mv+6FunNvrm5V0FCG504MEXU/lE4A7O1aqRmrQKTQEX+ela3VRFTH2exTFaJQVCaxUnuaPakF4pLhQI2WLnkpKPQUuFcDC8rFX1ja9VVKWPPnYWbvgiehITSbkQbOC4G5CJVH1bQqHvGQVRv4AdnMLTDXD9L9YwZpwYpZPen4T/QI01ilxMvWEMS2afIVU7kE3qjmjWuevMyNUBcT97xbr240iLvsemfX1gG+HwOacjuxXfITJRVLPsyoaLLVLGfN1CsDnlL+dWM106KbOon3ZwIPLQor0sRsM8WsDvGgVEmyXJj7lu1j3I9iffwN1TVGMtXiINhaZ0Rz8z1e8DTj7I0oHMtDAn41VyBvOjVelc+RhCNo05tRMuv3TDdDtO8wdz4saUtyC1LB4w0jHtiQHwXX9bgPxZLFNt8tNF0uF/6wyDZQQzzP7Ljvadm/vnPe4Vgd6/UPaROJmyXZCAcshkEfUvMFYtGjKre5l0QzWMEffo1xHTLFAwfC2+dQYn49GrW3dvaFkHhv+zvYpAiHq1RPusQoxFpCH8H1KgtLo9XhGHT/2gZPm1uaSmlBmGg7SOZz+XwcDG/zAepY89j5HxN9Vs8a6muKgW0Lbj9knMfyhp7D7x8=
         on:
-          repo: nazarov-mi/shri-homework-4
+          repo: nazarov-mi/shri-homework-456
           tags: false
 
     - stage: Deploy (production)
@@ -35,9 +35,9 @@ jobs:
         - npm run build
       deploy:
         provider: heroku
-        app: shri-homework-4-present
+        app: shri-homework-456
         api_key:
           secure: lRWeQFqQQZx1bKVtA/Zi2KsBTeiKCYRUxxmuKzosHkRkLyccQAp8Yp+mv+6FunNvrm5V0FCG504MEXU/lE4A7O1aqRmrQKTQEX+ela3VRFTH2exTFaJQVCaxUnuaPakF4pLhQI2WLnkpKPQUuFcDC8rFX1ja9VVKWPPnYWbvgiehITSbkQbOC4G5CJVH1bQqHvGQVRv4AdnMLTDXD9L9YwZpwYpZPen4T/QI01ilxMvWEMS2afIVU7kE3qjmjWuevMyNUBcT97xbr240iLvsemfX1gG+HwOacjuxXfITJRVLPsyoaLLVLGfN1CsDnlL+dWM106KbOon3ZwIPLQor0sRsM8WsDvGgVEmyXJj7lu1j3I9iffwN1TVGMtXiINhaZ0Rz8z1e8DTj7I0oHMtDAn41VyBvOjVelc+RhCNo05tRMuv3TDdDtO8wdz4saUtyC1LB4w0jHtiQHwXX9bgPxZLFNt8tNF0uF/6wyDZQQzzP7Ljvadm/vnPe4Vgd6/UPaROJmyXZCAcshkEfUvMFYtGjKre5l0QzWMEffo1xHTLFAwfC2+dQYn49GrW3dvaFkHhv+zvYpAiHq1RPusQoxFpCH8H1KgtLo9XhGHT/2gZPm1uaSmlBmGg7SOZz+XwcDG/zAepY89j5HxN9Vs8a6muKgW0Lbj9knMfyhp7D7x8=
         on:
-          repo: nazarov-mi/shri-homework-4
+          repo: nazarov-mi/shri-homework-456
           tags: true
