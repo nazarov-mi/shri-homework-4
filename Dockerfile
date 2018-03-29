@@ -5,7 +5,7 @@ COPY . .
 
 RUN apk add --no-cache git
 
-RUN git clone --mirror https://nazarov-mi@bitbucket.org/nazarov-mi/git-test.git local-repository/.git
+RUN git clone --mirror https://nazarov-mi@bitbucket.org/nazarov-mi/git-test-repository.git local-repository/.git
 
 RUN npm config set loglevel warn
 RUN npm install
