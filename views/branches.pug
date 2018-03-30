@@ -9,10 +9,10 @@ table#branches
 	if branches.hasData
 		tbody
 			each branch in branches.data
-				tr(class=branch.hash === hash ? 'selected-row' : '')
+				tr(class=branch.hash === uid.hash ? 'selected-row' : '')
 					td
 						span.badge
-							if branch.hash === hash
+							if branch.hash === uid.hash
 								| &rarr;
 					td= branch.name
 					td

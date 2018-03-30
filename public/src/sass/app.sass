@@ -11,8 +11,12 @@ body
 	font-family: Lucida Grande, Helvetica, Arial, sans-serif
 	font-size: 1rem
 
-h1, h2, h3,
-h4, h5, h6
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
 	margin-bottom: .67em
 	font-weight: bold
 
@@ -33,7 +37,8 @@ table
 	width: 100%
 	white-space: nowrap
 
-td, th
+td,
+th
 	max-width: 400px
 	padding: .5rem 1rem
 	overflow: hidden
@@ -41,11 +46,19 @@ td, th
 	&:first-child
 		padding-right: 0
 
+pre
+	padding: 8px
+	background-color: #fff
+
 .badge
 	display: inline-block
 	width: 1.5rem
-	color: gray
+	color: #999
 	font-size: 1.1em
+
+.back
+	display: block
+	margin-bottom: 24px
 
 .selected-row
 	a
@@ -53,7 +66,7 @@ td, th
 		&:hover
 			text-decoration: underline
 
-ul.directory
+.directory
 	display: block
 	white-space: nowrap
 
@@ -123,7 +136,7 @@ ul.directory
 	&--open &__header
 		z-index: 5
 		background-color: #f3f3f9
-		border-color: white
+		border-color: #fff
 		&:before
 			display: none
 		span

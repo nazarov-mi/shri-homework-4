@@ -24,6 +24,19 @@ function getIndex () {
 let currentIndex = getIndex()
 const collapses = Array.from(document.querySelectorAll('.col'))
 
+function onCollapseTrigger (index) {
+	const col = collapses[index]
+
+	collapses.forEach((el) => {
+		el.classList.remove('col--open')
+	})
+
+	if (col) {
+		col.classList.add('col--open')
+		currentIndex = index
+	}
+}
+
 collapses.forEach((el, index) => {
 	const trigger = el.querySelector('.col__header')
 
@@ -32,26 +45,11 @@ collapses.forEach((el, index) => {
 	}
 })
 
-function onCollapseTrigger (index) {
-	const el = collapses[index]
-
-	collapses.forEach(el => {
-		el.classList.remove('col--open')
-	})
-
-	if (el) {
-		el.classList.add('col--open')
-		currentIndex = index
-	}
-}
-
-// onCollapseTrigger(currentIndex)
-
-window.addEventListener('click', e => {
+window.addEventListener('click', (e) => {
 	const el = e.target
 
 	if (el.tagName !== 'A') {
-		return
+		return e
 	}
 
 	e.preventDefault()

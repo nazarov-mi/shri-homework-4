@@ -1,6 +1,6 @@
 extends layout
 
 block content
-	a.back(href=`/${hash}/${prevPath}`)
+	a.back(href=`/${uid.hash}/${uid.prevPath || ''}`)
 		| &larr; Назад
 	pre= data

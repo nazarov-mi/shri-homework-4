@@ -1,19 +1,19 @@
 div#directory
 	if directory.hasData
 		p.directory-path Current path: 
-			span= path
-		if prevPath
-			a.directory-back(href=`/${hash}/${prevPath}`)
+			span= uid.path
+		if uid.prevPath
+			a.directory-back(href=`/${uid.hash}/${uid.prevPath}`)
 				| &larr; Назад
 		ul.directory
 			each item in directory.data
 				li
 					if item.isDirectory
 						span.badge D
-						a(href=`/${hash}/${path || '.'}/${item.name}`)
+						a(href=`/${uid.hash}/${uid.path || '.'}/${item.name}`)
 							= item.name
 					else
-						a(href=`/blob/${hash}/${path || '.'}/${item.name}`)
+						a(href=`/blob/${uid.hash}/${uid.path || '.'}/${item.name}`)
 							= item.name
 	else
 		| Empty directory

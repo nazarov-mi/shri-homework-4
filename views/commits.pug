@@ -11,10 +11,10 @@ table#commits
 	if commits.hasData
 		tbody
 			each commit in commits.data
-				tr(class=commit.hash === hash ? 'selected-row' : '')
+				tr(class=commit.hash === uid.hash ? 'selected-row' : '')
 					td
 						span.badge
-							if commit.hash === hash
+							if commit.hash === uid.hash
 								| &rarr;
 						span.badge
 							if commit.isMerged
