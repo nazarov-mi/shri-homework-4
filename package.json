@@ -14,28 +14,27 @@
   "homepage": "https://github.com/nazarov-mi/shri-homework-456#readme",
   "main": "app.js",
   "scripts": {
-    "lint:styles": "stylelint \"**/*.sass\"; exit 0",
-    "lint:scripts": "eslint \"**/*.js\"; exit 0",
+    "lint:styles": "stylelint \"**/*.sass\"",
+    "lint:scripts": "eslint \"**/*.js\"",
     "lint": "npm run lint:styles && npm run lint:scripts",
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test:unit": "exit 0",
+    "test:int": "hermione",
+    "test": "npm run test:unit && npm run test:int",
     "clear": "rimraf \"./public/dist\"",
-    "build": "npm run clear && NODE_ENV=production webpack --progress --hide-modules",
-    "dev": "npm run clear && NODE_ENV=development webpack --progress --hide-modules",
+    "webpack:build": "npm run clear && NODE_ENV=production webpack --progress --hide-modules",
+    "webpack:serve": "npm run clear && NODE_ENV=development webpack --progress --hide-modules",
     "nodemon": "nodemon ./bin/www",
     "nodemon:test": "NODE_ENV=development npm run nodemon",
-    "start": "node ./bin/www",
-    "docs:build": "rimraf ./docs && jsdoc ./src -r -d ./docs",
     "clone:test-repository": "git clone --mirror https://nazarov-mi@bitbucket.org/nazarov-mi/git-test-repository.git local-test-repository/.git",
     "clone:repository": "git clone --mirror https://nazarov-mi@bitbucket.org/nazarov-mi/git-test-repository.git local-repository/.git",
-    "test:int": "hermione",
-    "test:unit": "exit 0",
     "selenium:install": "selenium-standalone install",
-    "selenium:start": "selenium-standalone start"
+    "selenium:start": "selenium-standalone start",
+    "start": "node ./bin/www"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test",
-      "pre-push": "npm run lint && npm run test"
+      "pre-commit": "npm run lint && npm run test:unit",
+      "pre-push": "npm run lint && npm run test:unit"
     }
   },
   "dependencies": {
@@ -59,7 +58,6 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "hermione": "^0.65.2",
     "husky": "^0.15.0-rc.12",
-    "jsdoc": "^3.5.5",
     "node-sass": "^4.7.2",
     "nodemon": "^1.17.2",
     "postcss-loader": "^2.1.2",
