@@ -6,7 +6,7 @@ const BranchesList = require('./BranchesList')
 const CommitsList = require('./CommitsList')
 const Directory = require('./Directory')
 const ExecStreamReader = require('./ExecStreamReader')
-const { join } = require('path')
+const Uid = require('./Uid')
 
 class App {
 
@@ -14,59 +14,27 @@ class App {
 		this._branches = new BranchesList()
 		this._commits = new CommitsList()
 		this._directory = new Directory()
-		this._hash = 'HEAD'
-		this._path = ''
+		this._uid = new Uid()
 	}
 
-	async change (hash, path) {
-		let currentHash = hash || 'HEAD'
-		let currentPath = path || ''
-
-		if (this._hash !== currentHash) {
-			currentPath = ''
-		}
-
-		if (currentPath !== '') {
-			currentPath = path.replace(/(^\.?\/|\/$)/g, '')
-		}
+	async change (uid) {
+		const currentUid = this._uid.copy(uid)
 
 		await this._branches.change()
-		await this._commits.change(currentHash)
-		await this._directory.change(currentHash, currentPath)
-
-		this._hash = currentHash
-		this._path = currentPath
+		await this._commits.change(currentUid)
+		await this._directory.change(currentUid)
 	}
 
-	async getFileData (hash, path) {
+	async getFileData (uid) {
 		const reader = new ExecStreamReader()
-		const blobIhs = `${hash}:${path}`
 
-		return await reader.start('git', ['show', blobIhs], {
+		this._uid.set(uid.hash, uid.prevPath)
+
+		const res = await reader.start('git', ['show', uid.src], {
 			cwd: REPOSITORY_PATH
 		})
-	}
 
-	getPrevPath (path) {
-		if (typeof path !== 'string') {
-			return null
-		}
-
-		const formatedPath = path.replace(/(^\.\/|\/$)/g, '')
-
-		if (formatedPath === '') {
-			return null
-		}
-
-		const parts = formatedPath.split('/')
-
-		if (parts.length === 1) {
-			return './'
-		}
-
-		parts.pop()
-
-		return parts.join('/')
+		return res
 	}
 
 
@@ -82,12 +50,8 @@ class App {
 		return this._directory
 	}
 
-	get hash () {
-		return this._hash
-	}
-
-	get path () {
-		return this._path
+	get uid () {
+		return this._uid
 	}
 }
 

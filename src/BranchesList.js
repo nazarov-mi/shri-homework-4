@@ -20,14 +20,6 @@ class BranchesList extends List {
 		super()
 	}
 
-	change () {
-		if (this.hasData) {
-			return Promise.resolve()
-		}
-
-		return this.fetch()
-	}
-
 	/**
 	 * @inheritdoc
 	 */

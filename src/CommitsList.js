@@ -18,25 +18,13 @@ class CommitsList extends List {
 	 */
 	constructor () {
 		super()
-
-		this._hash = null
-	}
-
-	change (hash) {
-		if (this._hash === hash && this.hasData) {
-			return Promise.resolve()
-		}
-
-		this._hash = hash
-
-		return this.fetch(hash)
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	async fetch (hash) {
-		const res = await this._reader.start('git', ['log', '--pretty=format:%H\t%p\t%an\t%aI\t%s', hash], {
+	async fetch (uid) {
+		const res = await this._reader.start('git', ['log', '--pretty=format:%H\t%p\t%an\t%aI\t%s', uid.hash], {
 			cwd: REPOSITORY_PATH
 		})
 
@@ -61,15 +49,6 @@ class CommitsList extends List {
 
 			return commit
 		})
-	}
-
-
-	/**
-	 * Хеш текущего списка
-	 * @return {String}
-	 */
-	get hash () {
-		return this._hash
 	}
 }
 

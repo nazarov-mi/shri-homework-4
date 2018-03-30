@@ -12,6 +12,7 @@ class ExecStreamReader {
 	 */
 	constructor () {
 		this._ls = null
+		this._promise = null
 		this._stdout = ''
 		this._stderr = ''
 		this._inProcessing = false
@@ -29,7 +30,7 @@ class ExecStreamReader {
 	 */
 	start (command, args, options) {
 		if (this._inProcessing) {
-			return
+			return this._promise
 		}
 
 		const promise = this._createPromise()
@@ -41,6 +42,7 @@ class ExecStreamReader {
 		ls.on('error', error => this._onError(error))
 
 		this._inProcessing = true
+		this._promise = promise
 		this._ls = ls
 
 		return promise
@@ -55,6 +57,7 @@ class ExecStreamReader {
 		}
 
 		this._ls = null
+		this._promise = null
 		this._stdout = ''
 		this._stderr = ''
 	}

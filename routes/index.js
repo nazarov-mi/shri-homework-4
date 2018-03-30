@@ -1,40 +1,33 @@
-const App = require('../src/App.js')
 const express = require('express')
+const App = require('../src/App.js')
+const Uid = require('../src/Uid.js')
 
 const router = express.Router()
 const app = new App()
 
 router.get('/blob/:hash/:path*', async (req, res) => {
-	const currentHash = req.params.hash
-	const currentPath = req.params.path + req.params['0']
+	const uid = new Uid(req.params.hash, req.params.path + req.params['0'])
 
-	const data = await app.getFileData(currentHash, currentPath)
-	const prevPath = app.getPrevPath(currentPath)
+	const data = await app.getFileData(uid)
 
 	res.render('blob', {
 		title: 'Git',
 		data,
-		hash: currentHash,
-		path: currentPath,
-		prevPath
+		uid
 	})
 })
 
 router.get('/:hash?/:path*?', async (req, res) => {
-	const currentHash = req.params.hash
-	const currentPath = req.params.path + req.params['0']
+	const uid = new Uid(req.params.hash, req.params.path + req.params['0'])
 
-	await app.change(currentHash, currentPath)
+	await app.change(uid)
 
 	const {
 		branches,
 		commits,
-		directory,
-		hash,
-		path
+		directory
 	} = app
 
-	const prevPath = app.getPrevPath(app.path)
 	const col = parseInt(req.query.col, 10) || 0
 
 	res.render('index', {
@@ -42,9 +35,7 @@ router.get('/:hash?/:path*?', async (req, res) => {
 		branches,
 		commits,
 		directory,
-		hash,
-		path,
-		prevPath,
+		uid,
 		col
 	})
 })

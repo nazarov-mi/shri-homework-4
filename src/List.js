@@ -1,6 +1,7 @@
 const AbstractClassError = require('./errors/AbstractClassError')
 const AbstractMethodError = require('./errors/AbstractMethodError')
 const ExecStreamReader = require('./ExecStreamReader')
+const Uid = require('./Uid')
 
 /**
  * Абстрактный класс для работы со списками git
@@ -19,32 +20,34 @@ class List {
 		}
 
 		this._data = null
+		this._uid = new Uid()
 		this._reader = new ExecStreamReader()
 	}
 
-	// /**
-	//  * Устанавливает текущий хеш для списка и запускает метод fetch
-	//  * @param  {String} hash - Git хеш
-	//  * @return {Promise}
-	//  */
-	// change (addr) {
-	// 	if (this._addr === addr && this.hasData) {
-	// 		return Promise.resolve()
-	// 	}
+	/**
+	 * Устанавливает текущий идентификатор и запускает метод fetch
+	 * @param  {Uid} uid - Уникальный идентификатор
+	 * @return {Promise}
+	 */
+	change (uid) {
+		if (this._uid.equal(uid) && this.hasData) {
+			return Promise.resolve()
+		}
 
-	// 	this._hash = hash || DEFAULT_HASH
+		this._uid.copy(uid)
 
-	// 	return this.fetch(this._hash)
-	// }
+		return this.fetch(this._uid)
+	}
 
 	/* eslint-disable */
 	/**
 	 * Запускает выполнение команды и обрабатывает полученные данные
 	 * @abstract
 	 * @async
+	 * @param  {Uid} uid - Уникальный идентификатор
 	 * @return {Promise}
 	 */
-	async fetch () {
+	async fetch (uid) {
 		throw new AbstractMethodError()
 	}
 	/* eslint-enable */
@@ -58,6 +61,14 @@ class List {
 		this._data = Array.isArray(data) ? data : null
 	}
 
+
+	/**
+	 * Идентификатор списка
+	 * @return {Uid}
+	 */
+	get uid () {
+		return this._uid
+	}
 
 	/**
 	 * Данные списка

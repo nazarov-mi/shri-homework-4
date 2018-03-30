@@ -18,31 +18,13 @@ class Directory extends List {
 	 */
 	constructor () {
 		super()
-
-		this._treeIsh = null
-		this._hash = null
-		this._path = null
-	}
-
-	change (hash, path) {
-		const treeIsh = `${hash}:${path}`
-
-		if (treeIsh === this._treeIsh && this.hasData) {
-			return Promise.resolve()
-		}
-
-		this._treeIsh = treeIsh
-		this._hash = hash
-		this._path = path
-
-		return this.fetch(treeIsh)
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	async fetch (treeIsh) {
-		const res = await this._reader.start('git', ['ls-tree', '--full-name', treeIsh], {
+	async fetch (uid) {
+		const res = await this._reader.start('git', ['ls-tree', '--full-name', uid.src], {
 			cwd: REPOSITORY_PATH
 		})
 
@@ -67,23 +49,6 @@ class Directory extends List {
 
 			return obj
 		})
-	}
-
-
-	/**
-	 * Хеш текущего списка
-	 * @return {String}
-	 */
-	get hash () {
-		return this._hash
-	}
-
-	/**
-	 * Адрес текущей директории
-	 * @return {String}
-	 */
-	get path () {
-		return this._path
 	}
 }
 
