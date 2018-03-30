@@ -9,6 +9,6 @@ RUN git clone --mirror https://nazarov-mi@bitbucket.org/nazarov-mi/git-test-repo
 
 RUN npm config set loglevel warn
 RUN npm install
-RUN npm run build
+RUN npm run webpack:build
 
 CMD npm run start

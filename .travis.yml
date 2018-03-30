@@ -12,13 +12,10 @@ cache:
 script:
   - npm run lint
   - npm run test:unit
-  - npm run build
 
 jobs:
   include:
     - stage: Deploy (development)
-      script:
-        - npm run build
       deploy:
         provider: heroku
         app: shri-homework-456-dev
@@ -29,8 +26,6 @@ jobs:
           repo: nazarov-mi/shri-homework-456
           tags: false
     - stage: Deploy (production)
-      script:
-        - npm run build
       deploy:
         provider: heroku
         app: shri-homework-456
