@@ -1,3 +1,4 @@
+const { format } = require('date-fns')
 const split = require('./util/split')
 
 class Commit {
@@ -23,7 +24,7 @@ class Commit {
 		this._isMerged = parents.length > 1
 		this._hash = item[0]
 		this._author = item[2]
-		this._date = item[3]
+		this._date = format(item[3], 'MMMM do YYYY')
 		this._subject = item[4]
 	}
 
