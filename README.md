@@ -22,6 +22,30 @@ npm run clone:repository
 npm run start
 ```
 
+### Для запуска интеграционных тестов необходимо:
+
+Склонировать репозиторий для тестов
+```
+npm run clone:test-repository
+```
+Запустить приложение в режиме тестирования
+```
+npm run nodemon:test
+```
+Установить selenium локально (если команда не выполнялась ранее)
+```
+npm run selenium:install
+```
+Запустить selenium
+```
+npm run selenium:start
+```
+Запустить тесты
+```
+npm run test:int
+```
+**...profit**
+
 ## NPM скрипты
 
 ```
