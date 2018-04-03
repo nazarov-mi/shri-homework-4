@@ -15,7 +15,7 @@ module.exports = (value, separator, limit) => {
 	const parts = []
 	let i = 0
 
-	while (i ++ < limit - 1) {
+	while (i ++ < limit - 1 && string !== '') {
 		const match = string.match(separator)
 		const skip = match && match[0]
 
