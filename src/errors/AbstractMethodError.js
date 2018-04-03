@@ -3,14 +3,14 @@
  * Класс ошибки вызова абстрактного метода
  * @class
  */
-class AbstractMethodError {
+class AbstractMethodError extends Error {
 
 	/**
 	 * Создаёт экземпляр AbstractMethodError
 	 * @constructs
 	 */
 	constructor () {
-		throw new Error('Метод не реализован')
+		super('Метод не реализован')
 	}
 }
 

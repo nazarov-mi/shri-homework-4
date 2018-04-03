@@ -3,14 +3,14 @@
  * Класс ошибки создания абстракного класса
  * @class
  */
-class AbstractClassError {
+class AbstractClassError extends Error {
 
 	/**
 	 * Создаёт экземпляр AbstractClassError
 	 * @constructs
 	 */
 	constructor () {
-		throw new Error('Попытка создания экземпляра абстрактного класса')
+		super('Попытка создания экземпляра абстрактного класса')
 	}
 }
 
