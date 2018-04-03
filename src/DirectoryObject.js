@@ -1,40 +1,45 @@
-const split = require('./util/split')
-
+/**
+ * @class
+ */
 class DirectoryObject {
 
 	/**
+	 * @param {String} hash
+	 * @param {String} name
+	 * @param {String} type
 	 * @return {DirectoryObject}
 	 */
-	constructor () {
-		this._hash = null
-		this._name = null
-		this._type = null
+	constructor (hash, name, type) {
+		this._hash = hash
+		this._name = name
+		this._type = type
 	}
+
 
 	/**
-	 * @param  {String} data
+	 * @return {String}
 	 */
-	parse (data) {
-		const item = split(data, /\s+/, 4)
-
-		this._hash = item[2]
-		this._name = item[3]
-		this._type = item[1]
-	}
-
-
 	get hash () {
 		return this._hash
 	}
 
+	/**
+	 * @return {String}
+	 */
 	get name () {
 		return this._name
 	}
 
+	/**
+	 * @return {String}
+	 */
 	get type () {
 		return this._type
 	}
 
+	/**
+	 * @return {Boolean}
+	 */
 	get isDirectory () {
 		return this._type === 'tree'
 	}

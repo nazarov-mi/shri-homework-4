@@ -4,6 +4,7 @@ const {
 
 const List = require('./List')
 const DirectoryObject = require('./DirectoryObject')
+const split = require('./util/split')
 
 /**
  * Класс — представление директории Git
@@ -37,18 +38,27 @@ class Directory extends List {
 	 * Парсит строки в объекты DirectoryObject
 	 * @private
 	 * @param  {String} data - Строки
-	 * @return {Array<DirectoryObject>}
+	 * @return {Array.<DirectoryObject>}
 	 */
 	static _parse (data) {
 		const rows = data.split(/\n/).filter(row => (!!row))
 
-		return rows.map((row) => {
-			const obj = new DirectoryObject()
+		return rows.map(line => this._parseLine(line))
+	}
 
-			obj.parse(row)
+	/**
+	 * Парсит строку в объект DirectoryObject
+	 * @param  {String} line - строка
+	 * @return {DirectoryObject}
+	 */
+	static _parseLine (line) {
+		const item = split(line, /\s+/, 4)
 
-			return obj
-		})
+		return new DirectoryObject(
+			item[2], // hash
+			item[3], // name
+			item[1] // type
+		)
 	}
 }
 

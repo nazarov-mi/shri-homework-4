@@ -4,6 +4,7 @@ const {
 
 const List = require('./List')
 const Commit = require('./Commit')
+const split = require('./util/split')
 
 /**
  * Класс — представление списка коммитов Git
@@ -42,13 +43,25 @@ class CommitsList extends List {
 	static _parse (data) {
 		const rows = data.split(/\n/).filter(row => (!!row))
 
-		return rows.map((row) => {
-			const commit = new Commit()
+		return rows.map(line => this._parseLine(line))
+	}
 
-			commit.parse(row)
+	/**
+	 * Парсит строку в объект Commit
+	 * @param  {String} line - строка
+	 * @return {Commit}
+	 */
+	static _parseLine (line) {
+		const item = split(line, /\t/, 5)
+		const parents = item[1].split(' ')
 
-			return commit
-		})
+		return new Commit(
+			item[0], // hash
+			item[2], // author
+			item[3], // date
+			item[4], // subject
+			parents.length > 1 // is merged
+		)
 	}
 }
 

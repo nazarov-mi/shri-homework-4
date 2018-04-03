@@ -1,50 +1,58 @@
 const { format } = require('date-fns')
-const split = require('./util/split')
 
+/**
+ * @class
+ */
 class Commit {
 
 	/**
+	 * @param {String} hash
+	 * @param {String} author
+	 * @param {String} date
+	 * @param {String} subject
+	 * @param {Boolean} isMerged
 	 * @return {Commit}
 	 */
-	constructor () {
-		this._hash = null
-		this._author = null
-		this._date = null
-		this._subject = null
-		this._isMerged = false
+	constructor (hash, author, date, subject, isMerged) {
+		this._hash = hash
+		this._author = author
+		this._date = format(date, 'MMMM Do YYYY')
+		this._subject = subject
+		this._isMerged = isMerged
 	}
+
 
 	/**
-	 * @param  {String} data
+	 * @return {String}
 	 */
-	parse (data) {
-		const item = split(data, /\t/, 5)
-		const parents = item[1].split(' ')
-
-		this._isMerged = parents.length > 1
-		this._hash = item[0]
-		this._author = item[2]
-		this._date = format(item[3], 'MMMM do YYYY')
-		this._subject = item[4]
-	}
-
-
 	get hash () {
 		return this._hash
 	}
 
+	/**
+	 * @return {String}
+	 */
 	get author () {
 		return this._author
 	}
 
+	/**
+	 * @return {String}
+	 */
 	get date () {
 		return this._date
 	}
 
+	/**
+	 * @return {String}
+	 */
 	get subject () {
 		return this._subject
 	}
 
+	/**
+	 * @return {Boolean}
+	 */
 	get isMerged () {
 		return this._isMerged
 	}

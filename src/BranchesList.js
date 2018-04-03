@@ -4,6 +4,7 @@ const {
 
 const List = require('./List')
 const Branch = require('./Branch')
+const split = require('./util/split')
 
 /**
  * Класс — представление списка веток Git
@@ -36,19 +37,30 @@ class BranchesList extends List {
 	/**
 	 * Парсит строки в объекты Branch
 	 * @private
-	 * @param  {String} data - Строки
+	 * @param  {String} data - строки
 	 * @return {Array<Branch>}
 	 */
 	static _parse (data) {
 		const rows = data.split(/\n/).filter(row => (!!row))
 
-		return rows.map((row) => {
-			const branch = new Branch()
+		return rows.map(line => this._parseLine(line))
+	}
 
-			branch.parse(row)
+	/**
+	 * Парсит строку в объект Branch
+	 * @param  {String} line - строка
+	 * @return {Branch}
+	 */
+	static _parseLine (line) {
+		const item = split(line, /\s+/, 4)
+		const isHead = item[0] === '*'
+		const hash = isHead ? 'HEAD' : item[2]
 
-			return branch
-		})
+		return new Branch(
+			hash, // hash
+			item[1], // name
+			item[3] // subject
+		)
 	}
 }
 
